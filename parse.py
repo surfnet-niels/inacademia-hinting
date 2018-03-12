@@ -83,14 +83,13 @@ for entnr in range(0, numEntities):
     if any(x in display_name_map['en'] for x in blacklisted_keywords):
       # But do check if they are not whitelisted
       if not any(x in display_name_map['en'] for x in idp_whitelisted_entities):
-		  #print "Found IdP for blacklist: " + display_name_map['en']
-		  idp_blacklist[entity_id] = display_name_map['en']
-		  num_blacklisted=num_blacklisted+1
+        idp_blacklist[entity_id] = display_name_map['en']
+        num_blacklisted=num_blacklisted+1
     else:
       # IF we have a new country, make a map for it
       if registrationAuthorityCountry not in display_name_country_idp_map:
-	    display_name_country_idp_map[registrationAuthorityCountry] = {}
-	    idp_whitelist_website[registrationAuthorityCountry] = {}
+        display_name_country_idp_map[registrationAuthorityCountry] = {}
+        idp_whitelist_website[registrationAuthorityCountry] = {}
       # set name to the per country map
       display_name_country_idp_map[registrationAuthorityCountry][entity_id_hash] = display_name_map
       # set name to the per country map whitelist
@@ -100,8 +99,8 @@ for entnr in range(0, numEntities):
       display_name_idp_map[entity_id_hash] = display_name_map['en']
       num_processed = num_processed + 1
 
-print "Numer of IdPs processed: ", num_processed
-print "Numer of IdPs blacklisted: ", num_blacklisted
+#print "Numer of IdPs processed: ", num_processed
+#print "Numer of IdPs blacklisted: ", num_blacklisted
 
 # prepend whitelist and registrationAuthorities so these can be used as JSONP
 idp_whitelist_website_outfile = 'processIdPs(\n' + json.dumps(idp_whitelist_website, sort_keys=True, indent=4) + '\n);'
@@ -123,13 +122,8 @@ if WRITE_FILES:
   with open(ADMIN_OUTPUT_PATH + REGISTRATION_AUTHORITY_OUTPUT, 'w') as outfile:
 	  #print(registrationAuthorities_map_outfile, file=outfile)
 	  outfile.write(registrationAuthorities_map_outfile)
-else:
-	print "Skipped writing files"
-	        
-# Use a per registrar list to generate per country data
-for key, value in registrationAuthorities_map.items():
-  # print key
-  with open(OUTPUT_PATH + key+".json", 'w') as outfile:
-    json.dump(display_name_country_idp_map[key], outfile, sort_keys=True, indent=4)
-
-# TODO: Push data into InAcademia GIT
+  # Use a per registrar list to generate per country data
+  for key, value in registrationAuthorities_map.items():
+    # print key
+    with open(OUTPUT_PATH + key+".json", 'w') as outfile:
+      json.dump(display_name_country_idp_map[key], outfile, sort_keys=True, indent=4)
