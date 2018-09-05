@@ -13,7 +13,9 @@ RUN apt clean
 
 COPY run.sh /tmp/inacademia/run.sh
 RUN /usr/bin/git clone https://github.com/surfnet-niels/inacademia-hinting.git /tmp/inacademia/hinting
-RUN /usr/bin/git clone git@github.com:surfnet-niels/idp_hint.git /tmp/inacademia/hinting/output/idp_hint
+RUN /usr/bin/git clone https://github.com/surfnet-niels/idp_hint.git /tmp/inacademia/hinting/output/idp_hint
+# RUN /usr/bin/git clone git@github.com:surfnet-niels/idp_hint.git /tmp/inacademia/hinting/output/idp_hint
+RUN cd /tmp/inacademia/hinting/output/idp_hint; /usr/bin/git remote add origin-ssh git@github.com:surfnet-niels/idp_hint.git
 
 ENTRYPOINT ["/tmp/inacademia/run.sh"]
-# ENTRYPOINT ["/bin/bash"]
+#ENTRYPOINT ["/bin/bash"]

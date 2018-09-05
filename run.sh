@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 
 cd /tmp/inacademia/hinting
 
@@ -16,6 +16,6 @@ cd ../..
 # comit and push the updated data to git repo.
 cd output/idp_hint
 GIT_SSH_COMMAND='ssh -i /home/ubuntu/.ssh/id_rsa_inacademia' /usr/bin/git add --all
-GIT_SSH_COMMAND='ssh -i /home/ubuntu/.ssh/id_rsa_inacademia' /usr/bin/git commit -am "Updated entities"
-GIT_SSH_COMMAND='ssh -i /home/ubuntu/.ssh/id_rsa_inacademia' /usr/bin/git push origin
+GIT_SSH_COMMAND='ssh -i /home/ubuntu/.ssh/id_rsa_inacademia' /usr/bin/git commit -am "Updated entities $(date +'%F %T')"
+GIT_SSH_COMMAND='ssh -oStrictHostKeyChecking=no -i /home/ubuntu/.ssh/id_rsa_inacademia' /usr/bin/git push origin-ssh
 
