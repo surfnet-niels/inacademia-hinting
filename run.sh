@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# download eduGAN metadata to input dir - test commit
+# download eduGAN metadata to input dir
 /usr/bin/wget http://mds.edugain.org/ -q  -O input/edugain.xml
 
 # pul the latest version of idp_hint data from the git repo
