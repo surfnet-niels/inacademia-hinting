@@ -46,7 +46,7 @@ for entnr in range(0, numEntities):
   entity = entities['md:EntitiesDescriptor']['md:EntityDescriptor'][entnr]
 
   if 'md:IDPSSODescriptor' in entity:
-    # Found an IdP  
+    # Found an IdP
     entity_id = entity['@entityID']
     entity_id_hash = hashlib.sha1(entity_id.encode('utf-8')).hexdigest()
 
@@ -60,12 +60,13 @@ for entnr in range(0, numEntities):
     elif registrationAuthority ==  "http://www.csc.fi/haka":
      registrationAuthorityCountry = "fi"
     else:
-     registrationAuthorityCountry = registrationAuthority.split(".")[-1].replace("/","")   
-     registrationAuthorities_map[registrationAuthorityCountry] = registrationAuthority
+     registrationAuthorityCountry = registrationAuthority.split(".")[-1].replace("/","")
+
+    registrationAuthorities_map[registrationAuthorityCountry] = registrationAuthority
 
     entDescIdPExt = entity['md:IDPSSODescriptor']['md:Extensions']
     display_name_map = {}
-	
+
     # set the display_name to be the entityID (should always work)
     display_name_map['en'] = entity_id
     try:
@@ -94,7 +95,7 @@ for entnr in range(0, numEntities):
       display_name_country_idp_map[registrationAuthorityCountry][entity_id_hash] = display_name_map
       # set name to the per country map whitelist
       idp_whitelist_website[registrationAuthorityCountry][entity_id] = display_name_map
-      
+
       #set the full list
       display_name_idp_map[entity_id_hash] = display_name_map['en']
       num_processed = num_processed + 1
