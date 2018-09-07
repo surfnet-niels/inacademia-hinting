@@ -14,10 +14,5 @@ docker run -it \
 	-v /etc/passwd:/etc/passwd:ro \
 	-v /etc/group:/etc/group:ro \
 	-v /home/ubuntu:/home/ubuntu \
-	--net inacademia.local \
-	--ip 172.172.172.101 \
 	--hostname hinting.inacademia.local \
 	$IMAGE_TAG
-
-
-
