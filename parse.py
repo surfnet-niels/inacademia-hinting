@@ -15,7 +15,7 @@ DISPLAY_NAME_COUNTRY_OUTPUT = 'display_names_country.json'
 REGISTRATION_AUTHORITY_OUTPUT = 'registration_authorities.json'
 BLACKLIST_OUTPUT = 'blacklist.json'
 WHITELIST_OUTPUT = 'whitelist.json'
-WRITE_FILES = True
+WRITE_FILES = False
 
 entity_id_idp_map = {}
 display_name_idp_map = {}
@@ -53,6 +53,8 @@ for entnr in range(0, numEntities):
     entity_id_idp_map[entity_id_hash] = entity_id
 
     registrationAuthority = entity['md:Extensions']['mdrpi:RegistrationInfo']['@registrationAuthority']
+    print(registrationAuthority)
+
     if registrationAuthority == "https://incommon.org":
      registrationAuthorityCountry = "us"
     elif registrationAuthority == "http://kafe.kreonet.net":
