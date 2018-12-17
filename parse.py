@@ -15,7 +15,7 @@ DISPLAY_NAME_COUNTRY_OUTPUT = 'display_names_country.json'
 REGISTRATION_AUTHORITY_OUTPUT = 'registration_authorities.json'
 BLACKLIST_OUTPUT = 'blacklist.json'
 WHITELIST_OUTPUT = 'whitelist.json'
-WRITE_FILES = False
+WRITE_FILES = True
 
 entity_id_idp_map = {}
 display_name_idp_map = {}
@@ -34,6 +34,8 @@ idp_whitelisted_entities = [line.rstrip('\n') for line in open('config/idp_white
 num_processed = 0
 num_blacklisted = 0
 
+num_idps = 0
+
 # TODO: write soemthign to update xml from edugain.
 # wget http://md.edugain.org -O edugain.xml
 
@@ -42,18 +44,21 @@ with open('./input/edugain.xml') as fd:
 
 numEntities =len(entities['md:EntitiesDescriptor']['md:EntityDescriptor'])
 
+print "Entities found: ", numEntities
+
 for entnr in range(0, numEntities):
   entity = entities['md:EntitiesDescriptor']['md:EntityDescriptor'][entnr]
 
   if 'md:IDPSSODescriptor' in entity:
     # Found an IdP
+    num_idps = num_idps + 1
     entity_id = entity['@entityID']
     entity_id_hash = hashlib.sha1(entity_id.encode('utf-8')).hexdigest()
 
     entity_id_idp_map[entity_id_hash] = entity_id
 
     registrationAuthority = entity['md:Extensions']['mdrpi:RegistrationInfo']['@registrationAuthority']
-    print(registrationAuthority)
+    #print(registrationAuthority)
 
     if registrationAuthority == "https://incommon.org":
      registrationAuthorityCountry = "us"
@@ -66,11 +71,19 @@ for entnr in range(0, numEntities):
 
     registrationAuthorities_map[registrationAuthorityCountry] = registrationAuthority
 
-    entDescIdPExt = entity['md:IDPSSODescriptor']['md:Extensions']
+    # Start working on parcing the displayname
     display_name_map = {}
-
+    
     # set the display_name to be the entityID (should always work)
     display_name_map['en'] = entity_id
+    
+    # Try to find element tha shoudl hold the MDUI info
+    try:
+      entDescIdPExt = entity['md:IDPSSODescriptor']['md:Extensions']
+      
+    except KeyError:
+      pass
+
     try:
       # Try to past mdui displayname - may throw KeyError of there is no mdui
       # Try to parse single mdui displayname - may throw TypeError of there is multiple
@@ -80,19 +93,27 @@ for entnr in range(0, numEntities):
       display_name_map[entDescIdPExt['mdui:UIInfo']['mdui:DisplayName'][1]['@xml:lang']] = entDescIdPExt['mdui:UIInfo']['mdui:DisplayName'][1]['#text']
     except KeyError:
       # Just use previously set entityid
+      print "No mdui information for entityID: ",  display_name_map['en']
       pass
 
-    # test if the IdP does not have names we doe not allow from the blacklist
+    entity_blacklisted = False
+
+    # test if the IdP does not have names we do not allow from the blacklist
     if any(x in display_name_map['en'] for x in blacklisted_keywords):
+      entity_blacklisted = True
       # But do check if they are not whitelisted
       if not any(x in display_name_map['en'] for x in idp_whitelisted_entities):
-        idp_blacklist[entity_id] = display_name_map['en']
-        num_blacklisted=num_blacklisted+1
+        entity_blacklisted = False
+        
+    if entity_blacklisted:
+      idp_blacklist[entity_id] = display_name_map['en']
+      num_blacklisted=num_blacklisted+1
     else:
       # IF we have a new country, make a map for it
       if registrationAuthorityCountry not in display_name_country_idp_map:
         display_name_country_idp_map[registrationAuthorityCountry] = {}
         idp_whitelist_website[registrationAuthorityCountry] = {}
+      
       # set name to the per country map
       display_name_country_idp_map[registrationAuthorityCountry][entity_id_hash] = display_name_map
       # set name to the per country map whitelist
@@ -101,9 +122,11 @@ for entnr in range(0, numEntities):
       #set the full list
       display_name_idp_map[entity_id_hash] = display_name_map['en']
       num_processed = num_processed + 1
+ 
 
-#print "Numer of IdPs processed: ", num_processed
-#print "Numer of IdPs blacklisted: ", num_blacklisted
+print "Numer of IdPs found: ", num_idps
+print "Numer of IdPs processed: ", num_processed
+print "Numer of IdPs blacklisted: ", num_blacklisted
 
 # prepend whitelist and registrationAuthorities so these can be used as JSONP
 idp_whitelist_website_outfile = 'processIdPs(\n' + json.dumps(idp_whitelist_website, sort_keys=True, indent=4) + '\n);'
