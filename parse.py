@@ -7,8 +7,8 @@ import hashlib
 import sys
 import pprint
 
-HINTING_ROOTPATH='/tmp/hinting'
-CONFIG_PATH='/tmp/hinting' + '/config/'
+HINTING_ROOTPATH='/tmp/inacademia'
+CONFIG_PATH=HINTING_ROOTPATH + '/hinting/config/'
 INPUT_PATH = HINTING_ROOTPATH + '/input/idp_hint/'
 OUTPUT_PATH = HINTING_ROOTPATH + '/output/idp_hint/'
 ADMIN_OUTPUT_PATH = HINTING_ROOTPATH + '/output/admin/'
