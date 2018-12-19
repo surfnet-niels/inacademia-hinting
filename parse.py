@@ -7,8 +7,11 @@ import hashlib
 import sys
 import pprint
 
-OUTPUT_PATH = './output/idp_hint/'
-ADMIN_OUTPUT_PATH = './output/admin/'
+HINTING_ROOTPATH='/tmp/hinting'
+CONFIG_PATH='/tmp/hinting' + '/config/'
+INPUT_PATH = HINTING_ROOTPATH + '/input/idp_hint/'
+OUTPUT_PATH = HINTING_ROOTPATH + '/output/idp_hint/'
+ADMIN_OUTPUT_PATH = HINTING_ROOTPATH + '/output/admin/'
 ENTITY_ID_OUTPUT = 'entityids.json'
 DISPLAY_NAME_OUTPUT = 'display_names.json'
 DISPLAY_NAME_COUNTRY_OUTPUT = 'display_names_country.json'
@@ -25,10 +28,8 @@ idp_blacklist = {}
 idp_whitelist_website = {}
 
 # Load whitelisted IdPs and blacklisted keywords from file
-blacklisted_keywords = [line.rstrip('\n') for line in open('config/blacklisted_keywords.txt')]
-idp_whitelisted_entities = [line.rstrip('\n') for line in open('config/idp_whitelisted_entities.txt')]
-
-#idp_whitelist_names = {'Bishop Grosseteste University', ' KGV College - Latest'}
+blacklisted_keywords = [line.rstrip('\n') for line in open($CONFIG_PATH + 'blacklisted_keywords.txt')]
+idp_whitelisted_entities = [line.rstrip('\n') for line in open($CONFIG_PATH + 'idp_whitelisted_entities.txt')]
 
 # Some counters for reporting
 num_processed = 0
@@ -39,7 +40,7 @@ num_idps = 0
 # TODO: write soemthign to update xml from edugain.
 # wget http://md.edugain.org -O edugain.xml
 
-with open('./input/edugain.xml') as fd:
+with open(INPUT_PATH + 'edugain.xml') as fd:
     entities = xmltodict.parse(fd.read())
 
 numEntities =len(entities['md:EntitiesDescriptor']['md:EntityDescriptor'])
