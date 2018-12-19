@@ -28,8 +28,8 @@ idp_blacklist = {}
 idp_whitelist_website = {}
 
 # Load whitelisted IdPs and blacklisted keywords from file
-blacklisted_keywords = [line.rstrip('\n') for line in open($CONFIG_PATH + 'blacklisted_keywords.txt')]
-idp_whitelisted_entities = [line.rstrip('\n') for line in open($CONFIG_PATH + 'idp_whitelisted_entities.txt')]
+blacklisted_keywords = [line.rstrip('\n') for line in open(CONFIG_PATH + 'blacklisted_keywords.txt')]
+idp_whitelisted_entities = [line.rstrip('\n') for line in open(CONFIG_PATH + 'idp_whitelisted_entities.txt')]
 
 # Some counters for reporting
 num_processed = 0
