@@ -9,7 +9,7 @@ import pprint
 
 HINTING_ROOTPATH='/tmp/inacademia'
 CONFIG_PATH=HINTING_ROOTPATH + '/hinting/config/'
-INPUT_PATH = HINTING_ROOTPATH + '/input/idp_hint/'
+INPUT_PATH = HINTING_ROOTPATH + '/input/'
 OUTPUT_PATH = HINTING_ROOTPATH + '/output/idp_hint/'
 ADMIN_OUTPUT_PATH = HINTING_ROOTPATH + '/output/admin/'
 ENTITY_ID_OUTPUT = 'entityids.json'
