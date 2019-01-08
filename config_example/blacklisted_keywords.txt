@@ -1,0 +1,7 @@
+dev
+do not use
+development
+test
+Guest Identity Provider
+deprecated
+debug
