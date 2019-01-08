@@ -1,4 +1,0 @@
-dev
-do not use
-development
-test
