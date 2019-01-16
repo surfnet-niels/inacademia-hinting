@@ -15,5 +15,6 @@ echo "Building  docker container $IMAGE_TAG ..."
 docker build -t $IMAGE_TAG \
     --build-arg CODE_REPO=${CODE_REPO} \
     --build-arg IDP_HINT_REPO=${IDP_HINT_REPO} \
-    --no-cache .
+    .
+#    --no-cache .
 

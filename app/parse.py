@@ -14,6 +14,7 @@ OUTPUT_PATH = HINTING_ROOTPATH + '/output/idp_hint/'
 ADMIN_OUTPUT_PATH = HINTING_ROOTPATH + '/admin/'
 ENTITY_ID_OUTPUT = 'entityids.json'
 DISPLAY_NAME_OUTPUT = 'display_names.json'
+ENTITY_ID_COUNTRY_OUTPUT = 'entitiyids_country.json'
 DISPLAY_NAME_COUNTRY_OUTPUT = 'display_names_country.json'
 REGISTRATION_AUTHORITY_OUTPUT = 'registration_authorities.json'
 BLACKLIST_OUTPUT = 'blacklist.json'
@@ -22,6 +23,7 @@ WRITE_FILES = True
 
 entity_id_idp_map = {}
 display_name_idp_map = {}
+entity_id_country_map = {}
 display_name_country_idp_map = {}
 registrationAuthorities_map = {}
 idp_blacklist = {}
@@ -123,6 +125,7 @@ for entnr in range(0, numEntities):
 
       #set the full list
       display_name_idp_map[entity_id_hash] = display_name_map['en']
+      entity_id_country_map[entity_id_hash] = registrationAuthorityCountry
       num_processed = num_processed + 1
  
 
@@ -138,10 +141,8 @@ if WRITE_FILES:
   # Now dump the dict to a json format
   with open(ADMIN_OUTPUT_PATH + ENTITY_ID_OUTPUT, 'w') as outfile:
       json.dump(entity_id_idp_map, outfile, sort_keys=True, indent=4)
-  with open(OUTPUT_PATH + DISPLAY_NAME_OUTPUT, 'w') as outfile:
-      json.dump(display_name_idp_map, outfile, sort_keys=True, indent=4)
-  with open(OUTPUT_PATH + DISPLAY_NAME_COUNTRY_OUTPUT, 'w') as outfile:
-      json.dump(display_name_country_idp_map, outfile, sort_keys=True, indent=4)
+  with open(ADMIN_OUTPUT_PATH + ENTITY_ID_COUNTRY_OUTPUT, 'w') as outfile:
+      json.dump(entity_id_country_map, outfile, sort_keys=True, indent=4)
   with open(ADMIN_OUTPUT_PATH + BLACKLIST_OUTPUT, 'w') as outfile:
       json.dump(idp_blacklist, outfile, sort_keys=True, indent=4)
   with open(ADMIN_OUTPUT_PATH + WHITELIST_OUTPUT, 'w') as outfile:
@@ -150,6 +151,11 @@ if WRITE_FILES:
   with open(ADMIN_OUTPUT_PATH + REGISTRATION_AUTHORITY_OUTPUT, 'w') as outfile:
 	  #print(registrationAuthorities_map_outfile, file=outfile)
 	  outfile.write(registrationAuthorities_map_outfile)
+
+  with open(OUTPUT_PATH + DISPLAY_NAME_OUTPUT, 'w') as outfile:
+      json.dump(display_name_idp_map, outfile, sort_keys=True, indent=4)
+  with open(OUTPUT_PATH + DISPLAY_NAME_COUNTRY_OUTPUT, 'w') as outfile:
+      json.dump(display_name_country_idp_map, outfile, sort_keys=True, indent=4)
   # Use a per registrar list to generate per country data
   for key, value in registrationAuthorities_map.items():
     # print key
