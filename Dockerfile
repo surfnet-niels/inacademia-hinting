@@ -25,4 +25,3 @@ RUN mkdir /tmp/inacademia/admin
 
 ENTRYPOINT ["/tmp/inacademia/start.sh"]
 #ENTRYPOINT ["/bin/bash"]
-
