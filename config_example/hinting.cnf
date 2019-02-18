@@ -1,0 +1,4 @@
+CODE_REPO=inacademia-development/inacademia-hinting.git
+IDP_HINT_REPO=inacademia-development/idp_hint.git
+ADMIN_DATA_REPO=git@gitlab.geant.org:inacademia/admin_data.git
+PERSISTEN_DATA_VOLUME_MOUNTPOINT=/tmp/inacademia_admin_data

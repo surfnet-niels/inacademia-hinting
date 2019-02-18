@@ -1,6 +1,7 @@
 #! /bin/bash
-
 IMAGE_TAG=inacademia/hinting:v1
+
+source config/hinting.cnf
 
 # As the build command is being called, we assume we need to build a new image.
 # To be sure we therefor first remove existign ones
@@ -11,5 +12,9 @@ fi
 
 echo "Building  docker container $IMAGE_TAG ..."
 # Build the docker image
-docker build -t $IMAGE_TAG .
+docker build -t $IMAGE_TAG \
+    --build-arg CODE_REPO=${CODE_REPO} \
+    --build-arg IDP_HINT_REPO=${IDP_HINT_REPO} \
+    .
+#    --no-cache .
 
