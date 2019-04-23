@@ -1,6 +1,10 @@
 #! /bin/bash
 IMAGE_TAG=inacademia/hinting:v1
 
+echo '##############################################################################################'
+echo $(date +"%c")
+echo '##############################################################################################'
+
 source config/hinting.cnf
 
 # As the build command is being called, we assume we need to build a new image.
