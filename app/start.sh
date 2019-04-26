@@ -19,6 +19,8 @@ cp /home/ubuntu/inacademia-hinting/config/known_hosts /root/.ssh/
 
 # Make git happy
 /usr/bin/git config --global push.default matching
+/usr/bin/git config --global user.name "InAcademia OPS team"
+/usr/bin/git config --global user.email tech@inacademia.org
 
 
 # download eduGAN metadata to input dir
