@@ -31,6 +31,13 @@ registrationAuthorities_map = {}
 idp_blacklist = {}
 idp_whitelist_website = {}
 
+country_exceptions_list = {
+    'https://incommon.org' => 'us',
+    'http://kafe.kreonet.net' => 'kr',
+    'http://www.csc.fi/haka' => 'fi',
+    'http://eduid.roedu.net' => 'ro',
+}
+
 # Load whitelisted IdPs and blacklisted keywords from file
 blacklisted_keywords = [line.rstrip('\n') for line in open(CONFIG_PATH + 'blacklisted_keywords.txt')]
 idp_whitelisted_entities = [line.rstrip('\n') for line in open(CONFIG_PATH + 'idp_whitelisted_entities.txt')]
@@ -67,14 +74,7 @@ for entnr in range(0, numEntities):
 
     entity_id_ra_map[entity_id_hash] = registrationAuthority
 
-    if registrationAuthority == "https://incommon.org":
-     registrationAuthorityCountry = "us"
-    elif registrationAuthority == "http://kafe.kreonet.net":
-     registrationAuthorityCountry = "kr"
-    elif registrationAuthority ==  "http://www.csc.fi/haka":
-     registrationAuthorityCountry = "fi"
-    else:
-     registrationAuthorityCountry = registrationAuthority.split(".")[-1].replace("/","")
+    registrationAuthorityCountry = country_exceptions_list.get(registrationAuthority, registrationAuthority.split(".")[-1].replace("/",""))
 
     registrationAuthorities_map[registrationAuthorityCountry] = registrationAuthority
 
