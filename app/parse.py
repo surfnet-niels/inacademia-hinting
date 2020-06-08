@@ -32,10 +32,10 @@ idp_blacklist = {}
 idp_whitelist_website = {}
 
 country_exceptions_list = {
-    'https://incommon.org' => 'us',
-    'http://kafe.kreonet.net' => 'kr',
-    'http://www.csc.fi/haka' => 'fi',
-    'http://eduid.roedu.net' => 'ro',
+    'https://incommon.org': 'us',
+    'http://kafe.kreonet.net': 'kr',
+    'http://www.csc.fi/haka': 'fi',
+    'http://eduid.roedu.net': 'ro',
 }
 
 # Load whitelisted IdPs and blacklisted keywords from file
