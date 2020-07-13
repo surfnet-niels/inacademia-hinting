@@ -6,9 +6,9 @@ import json
 import hashlib
 import urllib
 import sys
-import pprint
+#import pprint
 import wget
-import os.path as path
+#import os.path as path
 import time
 
 HINTING_ROOTPATH='/tmp/inacademia'
@@ -19,7 +19,8 @@ OUTPUT_PATH = HINTING_ROOTPATH + '/output/idp_hint/'
 ADMIN_OUTPUT_PATH = HINTING_ROOTPATH + '/admin/'
 ENTITY_ID_OUTPUT = 'entityids.json'
 DISPLAY_NAME_OUTPUT = 'display_names.json'
-ENTITY_ID_COUNTRY_OUTPUT = 'entitiyids_country.json'
+ENTITY_ID_COUNTRY_OUTPUT = 'entityids_country.json'
+ENTITY_ID_RA_OUTPUT = 'entityids_ra.json'
 DISPLAY_NAME_COUNTRY_OUTPUT = 'display_names_country.json'
 REGISTRATION_AUTHORITY_OUTPUT = 'registration_authorities.json'
 BLACKLIST_OUTPUT = 'blacklist.json'
@@ -29,10 +30,12 @@ EDUGAIN_RA_URI = 'https://www.edugain.org'
 
 # These are te dicts we maintain to create the lists to write out.
 entity_id_idp_map = {}
+entity_id_ra_map = {}
 display_name_idp_map = {}
 entity_id_country_map = {}
 display_name_country_idp_map = {}
 registrationAuthorities_map = {}
+entity_id_ra_map = {}
 idp_blacklist = {}
 idp_whitelist_website = {}
 
@@ -48,7 +51,7 @@ num_idps = 0
 entities = {}
 
 def is_file_older_than_x_days(file, days=1): 
-    file_time = path.getmtime(file) 
+    file_time = os.path.getmtime(file) 
     # Check against 24 hours 
     if (time.time() - file_time) / 3600 > 24*days: 
         return True
@@ -152,6 +155,8 @@ def processEntities(ra, schema_prefix):
             registrationAuthority = entity[schema_prefix + 'Extensions']['mdrpi:RegistrationInfo']['@registrationAuthority']
           else:
             registrationAuthority = ra
+            
+          entity_id_ra_map[entity_id_hash] = registrationAuthority
           
           # test if this RA has special behaviour
           #if registrationAuthority in RAs:
@@ -237,6 +242,8 @@ def outputFiles():
       json.dump(entity_id_country_map, outfile, sort_keys=True, indent=4)
    with open(ADMIN_OUTPUT_PATH + BLACKLIST_OUTPUT, 'w') as outfile:
       json.dump(idp_blacklist, outfile, sort_keys=True, indent=4)
+   with open(ADMIN_OUTPUT_PATH + ENTITY_ID_RA_OUTPUT, 'w') as outfile:
+      json.dump(entity_id_ra_map, outfile, sort_keys=True, indent=4)
    with open(ADMIN_OUTPUT_PATH + WHITELIST_OUTPUT, 'w') as outfile:
       #print(idp_whitelist_website_outfile, file=outfile)
       outfile.write(idp_whitelist_website_outfile)

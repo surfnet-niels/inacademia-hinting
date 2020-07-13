@@ -24,5 +24,5 @@ RUN mkdir /tmp/inacademia/feeds
 RUN mkdir /tmp/inacademia/output
 RUN mkdir /tmp/inacademia/admin
 
-#ENTRYPOINT ["/tmp/inacademia/start.sh"]
-ENTRYPOINT ["/bin/bash"]
+ENTRYPOINT ["/tmp/inacademia/start.sh"]
+#ENTRYPOINT ["/bin/bash"]
