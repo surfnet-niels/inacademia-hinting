@@ -1,0 +1,50 @@
+{
+	"https://www.edugain.org": {
+		"name": "eduGAIN",
+		"country_code": "",
+		"md_url": "http://mds.edugain.org",
+        "schema_prefix" : "md:"
+	},
+	"https://www.aai.dfn.de": {
+		"name": "DFN-AAI",
+		"country_code": "de",
+		"md_url": "https://www.aai.dfn.de/fileadmin/metadata/dfn-aai-basic-metadata.xml",
+        "schema_prefix" : ""
+	},
+	"http://aai.grnet.gr": {
+		"name": "GRNET",
+		"country_code": "gr",
+		"md_url": "http://md.aai.grnet.gr/feeds/grnet-idp-samlmd.xml",
+        "schema_prefix" : "md:"
+	},
+	"https://incommon.org": {
+		"name": "InCommon",
+		"country_code": "us",
+		"md_url": "",
+        "schema_prefix" : ""
+	},
+	"http://kafe.kreonet.net": {
+		"name": "KAFE",
+		"country_code": "kr",
+		"md_url": "",
+        "schema_prefix" : ""
+	},
+	"http://www.csc.fi/haka": {
+		"name": "HAKA",
+		"country_code": "fi",
+		"md_url": "",
+        "schema_prefix" : ""        
+	},
+	"https://www.trc.gov.om/trcweb/": {
+		"name": "Oman KID",
+		"country_code": "om",
+		"md_url": "",
+        "schema_prefix" : ""        
+	},
+	"http://eduid.roedu.net": {
+		"name": "RoEduNetID",
+		"country_code": "ro",
+		"md_url": "",
+        "schema_prefix" : ""        
+	} 
+}
