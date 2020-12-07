@@ -5,7 +5,7 @@ echo '##########################################################################
 echo $(date +"%c")
 echo '##############################################################################################'
 
-source config/hinting.cnf
+source .env
 
 # As the build command is being called, we assume we need to build a new image.
 # To be sure we therefor first remove existign ones
@@ -17,8 +17,6 @@ fi
 echo "Building  docker container $IMAGE_TAG ..."
 # Build the docker image
 docker build -t $IMAGE_TAG \
-    --build-arg CODE_REPO=${CODE_REPO} \
-    --build-arg IDP_HINT_REPO=${IDP_HINT_REPO} \
-    .
-#    --no-cache .
-
+     --build-arg admin_data_repo=${ADMIN_DATA_REPO} \
+     --build-arg idp_hint_repo=${IDP_HINT_REPO} \
+     --no-cache .

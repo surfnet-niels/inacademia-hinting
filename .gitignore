@@ -1,1 +1,9 @@
+# Python virtualenv
+bin/
+lib/
+pyvenv.cfg
+
+.env
 config/
+admin_data/
+output/
