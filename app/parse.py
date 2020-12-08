@@ -16,11 +16,10 @@ CONFIG_PATH=os.environ['CONFIG_PATH']
 RA_INPUT_PATH = os.environ['FEEDS_PATH']
 OUTPUT_PATH = os.environ['IDP_HINT_PATH']
 ADMIN_OUTPUT_PATH = os.environ['ADMIN_DATA_PATH']
+ADMIN_HASHES_PATH = os.environ['ADMIN_HASHES_PATH']
 ADMIN_INPUT_PATH = os.environ['ADMIN_DATA_REPO_PATH']
 
 ENTITY_ID_OUTPUT = '/entityids.json'
-ENTITY_ID_OLD_OUTPUT = '/entityids_old.json'
-ENTITY_ID_NEW_OUTPUT = '/entityids_new.json'
 DISPLAY_NAME_OUTPUT = '/display_names.json'
 ENTITY_ID_COUNTRY_OUTPUT = '/entityids_country.json'
 ENTITY_ID_RA_OUTPUT = '/entityids_ra.json'
@@ -33,13 +32,12 @@ WRITE_FILES = True
 
 # These are te dicts we maintain to create the lists to write out.
 entity_id_idp_map = {}
-entity_id_idp_old = {}
-entity_id_idp_new = {}
 entity_id_ra_map = {}
 display_name_idp_map = {}
 entity_id_country_map = {}
 display_name_country_idp_map = {}
 registrationAuthorities_map = {}
+country_idp_map = {}
 entity_id_ra_map = {}
 idp_blacklist = {}
 idp_whitelist_website = {}
@@ -156,9 +154,6 @@ def processEntities(ra, schema_prefix):
       # Calucluate the HASH for IdP hinting as aSHA1 over the entityID
       entity_id_hash = hashlib.sha1(entity_id.encode('utf-8')).hexdigest()
 
-      new = entity_id_idp_old.pop(entity_id_hash, None)
-      if new == None and entity_id_idp_map.get(entity_id_hash, None) == None:
-        entity_id_idp_new[entity_id_hash] = entity_id
       entity_id_idp_map[entity_id_hash] = entity_id
 
       # fetch RA from eduGAIN metadata
@@ -186,6 +181,8 @@ def processEntities(ra, schema_prefix):
 
       # TODO: what if we have multiple RAs per country?
       registrationAuthorities_map[registrationAuthorityCountry] = registrationAuthority
+      country_idp_map.setdefault(registrationAuthorityCountry, {})
+      country_idp_map[registrationAuthorityCountry][entity_id] = entity_id_hash
 
       # Start working on parsing the displayname
       display_name_map = {}
@@ -248,10 +245,6 @@ def outputFiles():
    # Now dump the dict to a json format
    with open(ADMIN_OUTPUT_PATH + ENTITY_ID_OUTPUT, 'w') as outfile:
       json.dump(entity_id_idp_map, outfile, sort_keys=True, indent=4)
-   with open(ADMIN_OUTPUT_PATH + ENTITY_ID_OLD_OUTPUT, 'w') as outfile:
-      json.dump(entity_id_idp_old, outfile, sort_keys=True, indent=4)
-   with open(ADMIN_OUTPUT_PATH + ENTITY_ID_NEW_OUTPUT, 'w') as outfile:
-      json.dump(entity_id_idp_new, outfile, sort_keys=True, indent=4)
    with open(ADMIN_OUTPUT_PATH + ENTITY_ID_COUNTRY_OUTPUT, 'w') as outfile:
       json.dump(entity_id_country_map, outfile, sort_keys=True, indent=4)
    with open(ADMIN_OUTPUT_PATH + BLACKLIST_OUTPUT, 'w') as outfile:
@@ -274,6 +267,8 @@ def outputFiles():
      # print key
      with open(OUTPUT_PATH + '/' + key + ".json", 'w') as outfile:
        json.dump(display_name_country_idp_map[key], outfile, sort_keys=True, indent=4)
+     with open(ADMIN_HASHES_PATH + '/' + key + ".json", 'w') as outfile:
+       json.dump(country_idp_map[key], outfile, sort_keys=True, indent=4)
 
 def setRAdata(raconf):
   # Read RA config and loads RA metadata

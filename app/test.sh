@@ -4,11 +4,13 @@ export CONFIG_PATH=config
 export FEEDS_PATH=$HINTING_ROOTPATH/feeds
 export IDP_HINT_PATH=$HINTING_ROOTPATH/idp_hint
 export ADMIN_DATA_PATH=$HINTING_ROOTPATH/admin_data/
+export ADMIN_HASHES_PATH=$ADMIN_DATA_PATH/hashes
 export ADMIN_DATA_REPO_PATH=$HINTING_ROOTPATH/admin_data_repo/
 
 echo -e "Create directory structure"
 mkdir -p $ADMIN_DATA_REPO_PATH
 mkdir -p $ADMIN_DATA_PATH
+mkdir -p $ADMIN_HASHES_PATH
 mkdir -p $IDP_HINT_PATH
 mkdir -p $FEEDS_PATH
 
@@ -32,6 +34,7 @@ echo -e "+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+"
 # commit and push the updated data to git repo.
 echo -e "+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+"
 echo -e "Updating IdP Hints"
+/usr/bin/git -C $IDP_HINT_PATH add --all
 /usr/bin/git -C $IDP_HINT_PATH commit --allow-empty -am "Updated entities $(date +'%F %T')"
 /usr/bin/git -C $IDP_HINT_PATH push
 
@@ -44,5 +47,6 @@ rsync -rtv $ADMIN_DATA_PATH $ADMIN_DATA_REPO_PATH
 # comit and push the updated admin data to git repo.
 echo -e "+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+"
 echo -e "Pushing data to admin repo"
+/usr/bin/git -C $ADMIN_DATA_REPO_PATH add --all
 /usr/bin/git -C $ADMIN_DATA_REPO_PATH commit --allow-empty -am "Updated entities $(date +'%F %T')"
 /usr/bin/git -C $ADMIN_DATA_REPO_PATH push

@@ -4,6 +4,7 @@ export CONFIG_PATH=$HINTING_ROOTPATH/config
 export FEEDS_PATH=$HINTING_ROOTPATH/feeds
 export IDP_HINT_PATH=$HINTING_ROOTPATH/idp_hint
 export ADMIN_DATA_PATH=$HINTING_ROOTPATH/admin_data/
+export ADMIN_HASHES_PATH=$ADMIN_DATA_PATH/hashes
 export ADMIN_DATA_REPO_PATH=$HINTING_ROOTPATH/admin_data_repo/
 
 export GIT_SSH_COMMAND="ssh -oStrictHostKeyChecking=no -i $CONFIG_PATH/id_rsa_inacademia"
@@ -11,6 +12,7 @@ export GIT_SSH_COMMAND="ssh -oStrictHostKeyChecking=no -i $CONFIG_PATH/id_rsa_in
 echo -e "Create directory structure"
 mkdir -p $ADMIN_DATA_REPO_PATH
 mkdir -p $ADMIN_DATA_PATH
+mkdir -p $ADMIN_HASHES_PATH
 mkdir -p $IDP_HINT_PATH
 mkdir -p $FEEDS_PATH
 
@@ -38,6 +40,7 @@ echo -e "+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+"
 echo -e "+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+"
 echo -e "Updating IdP Hints"
 # Explicitly update the date on the README in case we had no other commits (tis way we can check if the mechanism is still working...
+/usr/bin/git -C $IDP_HINT_PATH add --all
 /usr/bin/git -C $IDP_HINT_PATH commit --allow-empty -am "Updated entities $(date +'%F %T')"
 /usr/bin/git -C $IDP_HINT_PATH push
 
@@ -50,6 +53,7 @@ rsync -rtv $IDP_HINT_PATH/display_names.json $ADMIN_DATA_PATH
 # comit and push the updated admin data to git repo.
 echo -e "+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+"
 echo -e "Pushing data to admin repo"
+/usr/bin/git -C $ADMIN_DATA_REPO_PATH add --all
 /usr/bin/git -C $ADMIN_DATA_REPO_PATH commit --allow-empty -am "Updated entities $(date +'%F %T')"
 /usr/bin/git -C $ADMIN_DATA_REPO_PATH push
 
