@@ -181,8 +181,6 @@ def processEntities(ra, schema_prefix):
 
       # TODO: what if we have multiple RAs per country?
       registrationAuthorities_map[registrationAuthorityCountry] = registrationAuthority
-      country_idp_map.setdefault(registrationAuthorityCountry, {})
-      country_idp_map[registrationAuthorityCountry][entity_id] = entity_id_hash
 
       # Start working on parsing the displayname
       display_name_map = {}
@@ -208,6 +206,9 @@ def processEntities(ra, schema_prefix):
         # Just use previously set entityid
         print("WARN: No mdui information for entityID: ",  display_name_map['en'])
         pass
+
+      country_idp_map.setdefault(registrationAuthorityCountry, {})
+      country_idp_map[registrationAuthorityCountry][entity_id] = f"{display_name_map['en']}, {entity_id_hash}"
 
       entity_blacklisted = False
 
