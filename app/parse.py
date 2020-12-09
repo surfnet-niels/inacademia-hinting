@@ -269,7 +269,9 @@ def outputFiles():
      with open(OUTPUT_PATH + '/' + key + ".json", 'w') as outfile:
        json.dump(display_name_country_idp_map[key], outfile, sort_keys=True, indent=4)
      with open(ADMIN_HASHES_PATH + '/' + key + ".json", 'w') as outfile:
-       json.dump(country_idp_map[key], outfile, sort_keys=True, indent=4)
+       #json.dump(country_idp_map[key], outfile, sort_keys=True, indent=4)
+       #Sort on displayname, keep entity_id as key value
+       json.dump({k:v for k,v in sorted(country_idp_map[key].items(), key=lambda item: item[1])}, outfile, indent=4)
 
 def setRAdata(raconf):
   # Read RA config and loads RA metadata
