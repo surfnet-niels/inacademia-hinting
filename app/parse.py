@@ -208,7 +208,7 @@ def processEntities(ra, schema_prefix):
         pass
 
       country_idp_map.setdefault(registrationAuthorityCountry, {})
-      country_idp_map[registrationAuthorityCountry][entity_id] = f"{display_name_map['en']}, {entity_id_hash}"
+      country_idp_map[registrationAuthorityCountry][entity_id_hash] = f"{display_name_map['en']}, {entity_id}"
 
       entity_blacklisted = False
 
